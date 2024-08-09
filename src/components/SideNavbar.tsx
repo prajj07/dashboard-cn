@@ -3,6 +3,11 @@
 
 import { useState } from "react";
 import { Nav } from "./ui/nav";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 
 import {
   LogOut,
@@ -55,6 +60,10 @@ export default function SideNavbar() {
           </Button>
         </div>
       )}
+      <Avatar className="left-2">
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
 
       <Nav
         isCollapsed={mobileWidth ? isCollapsed : isCollapsed}
