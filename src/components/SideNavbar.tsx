@@ -3,6 +3,11 @@
 
 import { useState } from "react";
 import { Nav } from "./ui/nav";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
 
 import {
   LogOut,
@@ -16,7 +21,6 @@ import { Button } from "./ui/button";
 
 import { useWindowWidth } from "@react-hook/window-size";
 
-
 export default function SideNavbar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -28,9 +32,16 @@ export default function SideNavbar() {
   }
 
   return (
-    <div className="relative min-w-[80px] border-r px-3 pb-10 pt-24">
+    <div
+      className={`fixed top-0 left-0 h-full border-r px-3 pb-10 pt-24 transition-transform duration-300 ${
+        isCollapsed ? "-translate-x-full" : "translate-x-0"
+      } ${isCollapsed ? "bg-gray-800" : "bg-white"} ${
+        mobileWidth ? "w-[250px]" : "w-[80px] sm:w-[250px]"
+      }`}
+      style={{ zIndex: 9999 }}
+    >
       {mobileWidth && (
-        <div className="absolute left-4 top-4">
+        <div className="fixed left-4 top-4 z-[9999]">
           <Button
             onClick={toggleSidebar}
             variant="secondary"
@@ -40,6 +51,7 @@ export default function SideNavbar() {
           </Button>
         </div>
       )}
+
       {!mobileWidth && (
         <div className="absolute right-[-20px] top-7">
           <Button
@@ -56,8 +68,18 @@ export default function SideNavbar() {
         </div>
       )}
 
+      <div className="flex items-center space-x-3 px-2">
+        <Avatar className="left-2">
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        {!isCollapsed && !mobileWidth && (
+          <span className="font-medium"> Prajwal </span>
+        )}
+      </div>
+
       <Nav
-        isCollapsed={mobileWidth ? isCollapsed : isCollapsed}
+        isCollapsed={isCollapsed}
         links={[
           {
             title: "Dashboard",
@@ -71,7 +93,6 @@ export default function SideNavbar() {
             icon: UsersRound,
             variant: "ghost",
           },
-
           {
             title: "Settings",
             href: "/settings",
@@ -80,6 +101,7 @@ export default function SideNavbar() {
           },
         ]}
       />
+
       <div
         className={`absolute bottom-10 ${
           isCollapsed ? "left-2" : "left-4"
